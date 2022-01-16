@@ -23,10 +23,10 @@ function amountFor(aPerformance) {
     return result;
 }
 
-function volumeCreditsFor(pref) {
+function volumeCreditsFor(aPerformace) {
     let volumeCredits = 0;
     volumeCredits += Math.max(perf.audience - 30, 0);
-    if ("comedy" === playFor(pref).type) {
+    if ("comedy" === playFor(aPerformace).type) {
         volumeCredits += Math.floor(perf.audience / 5);
     }
     return volumeCredits;
