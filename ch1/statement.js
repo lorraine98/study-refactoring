@@ -32,6 +32,14 @@ function volumeCreditsFor(aPerformace) {
     return volumeCredits;
 }
 
+function totalVolumeCredits() {
+    let volumeCredits = 0;
+    for (let perf of invoice.performances) {
+        volumeCredits += volumeCreditsFor(perf);
+    }
+    return volumeCredits;
+}
+
 function usd(aNumber) {
     return new Intl.NumberFormat("en-US",
         {
@@ -42,7 +50,6 @@ function usd(aNumber) {
 
 function statement(invoice, plays) {
     let totalAmount = 0;
-    let volumeCredits = 0;
     let result = `Statement for ${invoice.customer}\n`;
 
     function playFor(aPerformance) {
@@ -50,13 +57,12 @@ function statement(invoice, plays) {
     }
 
     for (let perf of invoice.performances) {
-        volumeCredits += volumeCreditsFor(pref);
-
         result += `  ${playFor(pref).name}: ${usd(amountFor(pref))} (${perf.audience} seats)\n`;
         totalAmount += amountFor(pref);
     }
+
     result += `Amount owed is ${usd(totalAmount)}\n`;
-    result += `You earned ${volumeCredits} credits\n`;
+    result += `You earned ${totalVolumeCredits()} credits\n`;
 
     return result;
 }
