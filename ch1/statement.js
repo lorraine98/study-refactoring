@@ -37,7 +37,7 @@ function usd(aNumber) {
         {
             style: "currency", currency: "USD",
             minimumFractionDigits: 2
-        }).format(aNumber);
+        }).format(aNumber / 100);
 }
 
 function statement(invoice, plays) {
@@ -52,10 +52,10 @@ function statement(invoice, plays) {
     for (let perf of invoice.performances) {
         volumeCredits += volumeCreditsFor(pref);
 
-        result += `  ${playFor(pref).name}: ${usd(amountFor(pref) / 100)} (${perf.audience} seats)\n`;
+        result += `  ${playFor(pref).name}: ${usd(amountFor(pref))} (${perf.audience} seats)\n`;
         totalAmount += amountFor(pref);
     }
-    result += `Amount owed is ${usd(totalAmount / 100)}\n`;
+    result += `Amount owed is ${usd(totalAmount)}\n`;
     result += `You earned ${volumeCredits} credits\n`;
 
     return result;
