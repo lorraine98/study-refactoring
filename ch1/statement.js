@@ -1,5 +1,21 @@
 export { statement }
 
+function statement(invoice, plays) {
+    let result = `Statement for ${invoice.customer}\n`;
+
+    function playFor(aPerformance) {
+        return plays[aPerformance.playId];
+    }
+
+    for (let perf of invoice.performances) {
+        result += `  ${playFor(pref).name}: ${usd(amountFor(pref))} (${perf.audience} seats)\n`;
+    }
+
+    result += `Amount owed is ${usd(totalAmount())}\n`;
+    result += `You earned ${totalVolumeCredits()} credits\n`;
+
+    return result;
+}
 
 function amountFor(aPerformance) {
     let result = 0;
@@ -20,6 +36,7 @@ function amountFor(aPerformance) {
         default:
             throw new Error(`unknown type: ${playFor(aPerformance).type}`);
     }
+
     return result;
 }
 
@@ -29,6 +46,7 @@ function volumeCreditsFor(aPerformace) {
     if ("comedy" === playFor(aPerformace).type) {
         volumeCredits += Math.floor(perf.audience / 5);
     }
+
     return volumeCredits;
 }
 
@@ -37,6 +55,7 @@ function totalVolumeCredits() {
     for (let perf of invoice.performances) {
         volumeCredits += volumeCreditsFor(perf);
     }
+
     return result;
 }
 
@@ -53,22 +72,7 @@ function totalAmount() {
     for (let perf of invoice.performances) {
         totalAmount += amountFor(pref);
     }
-    return result;
-}
-
-function statement(invoice, plays) {
-    let result = `Statement for ${invoice.customer}\n`;
-
-    function playFor(aPerformance) {
-        return plays[aPerformance.playId];
-    }
-
-    for (let perf of invoice.performances) {
-        result += `  ${playFor(pref).name}: ${usd(amountFor(pref))} (${perf.audience} seats)\n`;
-    }
-
-    result += `Amount owed is ${usd(totalAmount())}\n`;
-    result += `You earned ${totalVolumeCredits()} credits\n`;
 
     return result;
 }
+
