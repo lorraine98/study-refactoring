@@ -21,7 +21,15 @@ function amountFor(aPerformance) {
             throw new Error(`unknown type: ${playFor(aPerformance).type}`);
     }
     return result;
+}
 
+function volumeCreditsFor(pref) {
+    let volumeCredits = 0;
+    volumeCredits += Math.max(perf.audience - 30, 0);
+    if ("comedy" === playFor(pref).type) {
+        volumeCredits += Math.floor(perf.audience / 5);
+    }
+    return volumeCredits;
 }
 
 function statement(invoice, plays) {
@@ -39,13 +47,8 @@ function statement(invoice, plays) {
     }
 
     for (let perf of invoice.performances) {
+        volumeCredits += volumeCreditsFor(pref);
 
-        // add volume credits
-        volumeCredits += Math.max(perf.audience - 30, 0);
-        // add extra credit for every ten comedy attendees
-        if ("comedy" === playFor(pref).type) volumeCredits += Math.floor(perf.audience / 5);
-
-        // print line for this order
         result += `  ${playFor(pref).name}: ${format(amountFor(pref) / 100)} (${perf.audience} seats)\n`;
         totalAmount += amountFor(pref);
     }
