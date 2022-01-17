@@ -1,0 +1,20 @@
+{
+  "name": "study-refactoring",
+  "version": "1.0.0",
+  "description": "리펙터링 2판 스터디",
+  "main": "test.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lorraine98/study-refactoring.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lorraine98/study-refactoring/issues"
+  },
+  "homepage": "https://github.com/lorraine98/study-refactoring#readme"
+}

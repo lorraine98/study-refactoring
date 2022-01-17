@@ -1,4 +1,5 @@
-export { statement }
+const invoiceData = require('./invoices.json');
+const playsData = require('./plays.json');
 
 function statement(invoice, plays) {
     let result = `Statement for ${invoice.customer}\n`;
@@ -8,7 +9,7 @@ function statement(invoice, plays) {
     }
 
     for (let perf of invoice.performances) {
-        result += `  ${playFor(pref).name}: ${usd(amountFor(pref))} (${perf.audience} seats)\n`;
+        result += `  ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience} seats)\n`;
     }
 
     result += `Amount owed is ${usd(totalAmount())}\n`;
@@ -16,6 +17,7 @@ function statement(invoice, plays) {
 
     return result;
 }
+
 
 function amountFor(aPerformance) {
     let result = 0;
@@ -33,27 +35,25 @@ function amountFor(aPerformance) {
             }
             result += 300 * aPerformance.audience;
             break;
-        default:
-            throw new Error(`unknown type: ${playFor(aPerformance).type}`);
     }
 
     return result;
 }
 
 function volumeCreditsFor(aPerformace) {
-    let volumeCredits = 0;
-    volumeCredits += Math.max(perf.audience - 30, 0);
+    let result = 0;
+    result += Math.max(aPerformace.audience - 30, 0);
     if ("comedy" === playFor(aPerformace).type) {
-        volumeCredits += Math.floor(perf.audience / 5);
+        result += Math.floor(aPerformace.audience / 5);
     }
 
-    return volumeCredits;
+    return result;
 }
 
 function totalVolumeCredits() {
     let result = 0;
-    for (let perf of invoice.performances) {
-        volumeCredits += volumeCreditsFor(perf);
+    for (let perf of invoiceData.performances) {
+        result += volumeCreditsFor(perf);
     }
 
     return result;
@@ -69,10 +69,11 @@ function usd(aNumber) {
 
 function totalAmount() {
     let result = 0;
-    for (let perf of invoice.performances) {
-        totalAmount += amountFor(pref);
+    for (let perf of invoiceData.performances) {
+        totalAmount += amountFor(perf);
     }
 
     return result;
 }
 
+console.log(statement(invoiceData, playsData));
